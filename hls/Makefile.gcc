@@ -1,0 +1,18 @@
+# Makefile.gcc -- C simulation WITHOUT Vitis HLS (g++ + open-source ap_int headers)
+#   git clone https://github.com/Xilinx/HLS_arbitrary_Precision_Types.git ../build/hlsap
+#   make -f Makefile.gcc run            # CIFAR_N=20 images by default
+# The authoritative flow is scripts/run_hls.tcl in Vitis HLS 2024.2.
+AP_INC ?= ../build/hlsap/include
+CXX    ?= g++
+CXXFLAGS = -O2 -std=c++14 -Wno-unknown-pragmas -Iinclude -Icsim_stubs -I$(AP_INC) \
+           -DTB_DATA_DIR=\"testbench/data\"
+SRCS = src/cifar_accel.cpp testbench/tb_cifar_accel.cpp
+
+csim_gcc: $(SRCS) include/cifar_accel.h include/cifar_weights.h
+	$(CXX) $(CXXFLAGS) $(SRCS) -o $@
+
+run: csim_gcc
+	./csim_gcc
+
+clean:
+	rm -f csim_gcc

@@ -1,0 +1,5 @@
+# Board (PYNQ-Z2, PYNQ v3.x image): preinstalled -- do not pip install on the board.
+pynq>=3.0
+numpy>=1.21
+Pillow>=8.0
+# Host only: torch, torchvision (model/train.py, model/export_hls.py)
